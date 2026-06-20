@@ -84,13 +84,7 @@ app.put('/orders/:id', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('السيرفر شغال على المنفذ ' + PORT);
-});const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const dns = require('dns');
-dns.setServers(['8.8.8.8', '8.8.4.4']);
-const Product = require('./product');
-require('dotenv').config();
+});
 
 const app = express();
 app.use(cors());
