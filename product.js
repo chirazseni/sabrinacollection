@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
   image: String,
   colorImages: [String],
   colors: [String],
-  gallery:[string],
+  gallery:[String],
   sizes: [String],
   category: String,
   isBestSeller: { type: Boolean, default: false }
