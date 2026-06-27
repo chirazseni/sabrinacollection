@@ -1,9 +1,11 @@
+console.log("السيرفر يحاول البدء الآن...");
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dns = require('dns');
 dns.setServers(['8.8.8.8', '8.8.4.4']);
-require('dotenv').config();
+
 
 const Product = require('./product');
 const Order = require('./order');
@@ -16,6 +18,7 @@ app.use(express.json({ limit: '10mb' }));
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB متصلة!'))
   .catch(err => console.log('خطأ في الاتصال:', err));
+  console.log("بدأت عملية الاتصال بقاعدة البيانات...");
 
 // مسارات المنتجات
 app.get('/products', async (req, res) => {

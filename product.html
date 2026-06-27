@@ -129,7 +129,12 @@
                             ? product.colorImages.map(img => `<img src="${img}" class="color-thumb" onclick="document.getElementById('main-img').src='${img}'">`).join('')
                             : 'Aucune image supplémentaire'}
                     </div>
-
+<p><strong>Tailles disponibles:</strong></p>
+<div class="size-gallery" style="display:flex; gap:10px; margin:15px 0;">
+    ${product.sizes && product.sizes.length > 0
+        ? product.sizes.map(s => `<button class="size-btn" onclick="selectSize('${s.trim()}', this)" style="padding:8px 16px; border:2px solid #ddd; background:white; border-radius:6px; cursor:pointer;">${s.trim()}</button>`).join('')
+        : 'Taille unique'}
+</div>
                     <label>Quantité: </label>
                     <input type="number" value="1" id="qty" style="width: 50px; padding: 5px;">
                     <br><br>
@@ -173,13 +178,18 @@
         }
     }
 
-    function addToCart() {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        cart.push({ ...product, qty: document.getElementById('qty').value });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert('Produit ajouté au panier!');
-    }
-
+function addToCart() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ ...product, qty: document.getElementById('qty').value, selectedSize: selectedSize || 'Taille unique' });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('Produit ajouté au panier!');
+}
+let selectedSize = '';
+function selectSize(size, btn) {
+    selectedSize = size;
+    document.querySelectorAll('.size-btn').forEach(b => b.style.borderColor = '#ddd');
+    btn.style.borderColor = '#5D504C';
+}
     loadProduct();
 </script>
 </body>

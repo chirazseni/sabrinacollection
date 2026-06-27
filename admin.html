@@ -101,7 +101,6 @@
     </div>
 </div>
 </div>
-
 <script>
     const API_URL = 'https://sabrinacollection.onrender.com';
     const CLOUDINARY_CLOUD_NAME = 'dlpnfgyh4';
@@ -137,18 +136,25 @@
         render();
     }
 
-    async function uploadToCloudinary(file) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', CLOUDINARY_PRESET);
+ async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_PRESET);
 
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
-            method: 'POST',
-            body: formData
-        });
-        const data = await res.json();
-        return data.secure_url;
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: formData
+    });
+    const data = await res.json();
+
+    if (!data.secure_url) {
+        throw new Error('فشل رفع الصورة');
     }
+
+    // تحويل أي صيغة (خاصة HEIC من آيفون) إلى JPG متوافق مع كل المتصفحات
+    const convertedUrl = data.secure_url.replace(/\.\w+$/, '.jpg');
+    return convertedUrl;
+}
 
     document.getElementById('product-form').addEventListener('submit', async (e) => {
         e.preventDefault();
